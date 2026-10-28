@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tavoli NoFerPlei</title>
+<meta name="description" content="Iscrizioni ai tavoli di gioco di NoFerPlei APS, Reggio Emilia.">
+<link rel="icon" type="image/png" href="icona.png">
+<link rel="apple-touch-icon" href="icona.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;600;700&display=swap">
+<style>
+
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#13254D; --muted:#56648A; --line:#DCE2EF;
+  --blue:#19418A; --blue-soft:#E2E9F7;
+  --green:#86B11A; --green-ink:#46650A; --green-soft:#ECF5D6;
+  --orange:#EC6F00; --orange-ink:#A84B00; --orange-soft:#FDEBDB;
+  --cta:#C55800; --on-cta:#FFFFFF;
+  --danger:#B42318; --ok:#2F7D32;
+  --f-display:'Lilita One','Arial Rounded MT Bold',system-ui,sans-serif;
+  --f-body:'Rubik',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1628; --surface:#16213A; --ink:#E9EFFC; --muted:#9DAED2; --line:#28385C;
+  --blue:#86A8EE; --blue-soft:#1D2D50;
+  --green:#A4CF36; --green-ink:#BCE264; --green-soft:#1F2E17;
+  --orange:#FF8D36; --orange-ink:#FFB27A; --orange-soft:#3A2514;
+  --cta:#FF8D36; --on-cta:#1B0E02; --danger:#FF8E85; --ok:#7CD17F; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1628; --surface:#16213A; --ink:#E9EFFC; --muted:#9DAED2; --line:#28385C;
+  --blue:#86A8EE; --blue-soft:#1D2D50;
+  --green:#A4CF36; --green-ink:#BCE264; --green-soft:#1F2E17;
+  --orange:#FF8D36; --orange-ink:#FFB27A; --orange-soft:#3A2514;
+  --cta:#FF8D36; --on-cta:#1B0E02; --danger:#FF8E85; --ok:#7CD17F; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;letter-spacing:.01em;text-wrap:balance;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+:root[data-theme="dark"] 
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;padding-block:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand img{width:52px;height:auto}
+.brand b{font-family:var(--f-display);font-size:22px;color:var(--blue);font-weight:400;line-height:1}
+.brand small{display:block;color:var(--muted);font-size:13px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap}
+nav.tabs a{text-decoration:none;color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--bg)}
+nav.tabs a[aria-current="page"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+nav.tabs .badge{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--orange);color:#fff;font-size:12px;line-height:20px;text-align:center}
+
+main{padding-block:24px 120px}
+.hero{display:flex;gap:20px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px}
+.hero h1{font-size:clamp(30px,6vw,44px);line-height:1.05;color:var(--blue)}
+.hero p{margin:6px 0 0;color:var(--muted);max-width:56ch}
+.hero .eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange-ink);margin-bottom:4px}
+.hero .ev-desc{color:var(--ink);font-size:17px;max-width:60ch;white-space:pre-line;overflow-wrap:anywhere}
+.hero .how{font-size:14px}
+.slot-head .dur{color:var(--muted);font-size:14px}
+.trange{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trange input,.times input[type=time]{width:132px;max-width:100%;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.trange .dur{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.times{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr) minmax(0,1.5fr);gap:10px}
+@media (max-width:760px){.times{grid-template-columns:1fr}}
+.hero .facts{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip strong{color:var(--ink)}
+
+.slot{margin-top:28px}
+.slot-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.slot-head h2{font-size:26px;padding:2px 14px 0;border-radius:10px;color:#fff;line-height:1.3}
+.slot-head .time{color:var(--muted);font-variant-numeric:tabular-nums}
+.slot-head .hint{margin-left:auto;font-size:14px;color:var(--muted)}
+.pom h2{background:var(--green-ink)} .sera h2{background:var(--blue)} .piz h2{background:var(--orange-ink)} .giorno h2{background:linear-gradient(90deg,var(--green-ink),var(--blue))}
+:root[data-theme="dark"] .slot-head h2{color:#0E1628}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .slot-head h2{color:#0E1628} }
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.table{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.table.chosen{border-color:var(--cta);box-shadow:0 0 0 2px var(--cta) inset}
+.table h3{font-size:21px;line-height:1.15}
+.table .host{font-size:14px;color:var(--muted)}
+.table .note{font-size:14px;margin:0;line-height:1.45;color:var(--ink);overflow-wrap:anywhere}
+.panel .desc{font-size:14px;margin:6px 0 0;color:var(--ink);overflow-wrap:anywhere}
+.field textarea{resize:vertical;min-height:76px;font:inherit}
+.desc-help{display:flex;justify-content:space-between;gap:12px}
+.desc-help span:last-child{font-variant-numeric:tabular-nums;flex:none}
+.tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:6px;background:var(--blue-soft);color:var(--blue)}
+.tag.prop{background:var(--orange-soft);color:var(--orange-ink)}
+.seats{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+.seats svg{width:22px;height:22px}
+.seats .on{fill:var(--seat)}
+.seats .off{fill:none;stroke:var(--line);stroke-width:1.6}
+.pom{--seat:var(--green)} .sera{--seat:var(--blue)} .fri{--seat:var(--orange)} .giorno{--seat:var(--green)}
+.seatinfo{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.seatinfo b{color:var(--ink)}
+.full{color:var(--danger);font-weight:600}
+.names{font-size:14px;color:var(--muted);margin:0}
+.actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;background:var(--blue-soft);color:var(--blue)}
+.btn:hover{filter:brightness(.97)}
+.btn.primary{background:var(--cta);color:var(--on-cta)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.on{background:var(--ink);color:var(--surface)}
+.btn.small{padding:6px 10px;font-size:14px}
+.btn.danger{background:transparent;color:var(--danger);border:1px solid var(--line)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.pizza{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.pizza .count{font-family:var(--f-display);font-size:40px;color:var(--orange-ink);line-height:1;font-variant-numeric:tabular-nums}
+.pizza p{margin:0;flex:1;min-width:200px}
+
+.propose{margin-top:28px;border:2px dashed var(--line);border-radius:14px;padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.propose p{margin:0;flex:1;min-width:220px;color:var(--muted)}
+
+
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--surface);z-index:20;padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .wrap{display:flex;gap:12px;align-items:center;padding-block:12px;flex-wrap:wrap}
+.bar .sum{flex:1;min-width:200px;font-size:15px}
+.bar .sum b{font-weight:600}
+.bar .btn.primary{background:var(--orange);color:#1B0E02}
+
+
+.who{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.who label{font-weight:600}
+.who input[type=text]{flex:1;min-width:180px}
+.field input[type=text],.field input[type=email],.field input[type=tel],.field input[type=number],.field select,.field textarea,.who input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.fri-layout{display:grid;grid-template-columns:1fr 260px;gap:16px;margin-top:20px;align-items:start}
+@media (max-width:760px){.fri-layout{grid-template-columns:1fr}}
+.side{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.side h3{font-size:20px;margin-bottom:8px;color:var(--orange-ink)}
+.side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.side li{font-size:15px}
+.side .empty{color:var(--muted);font-size:14px}
+.fri-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+
+
+.overlay{position:fixed;inset:0;background:rgba(10,18,40,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top,0px) 0 0}
+@media (min-width:640px){.overlay{align-items:center;padding:24px}}
+.modal{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px max(16px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px))}
+@media (min-width:640px){.modal{border-radius:18px;padding:24px}}
+.modal h2{font-size:28px;color:var(--blue);margin-bottom:4px}
+.modal .lead{color:var(--muted);margin:0 0 16px}
+.form{display:flex;flex-direction:column;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:14px;font-weight:600}
+.field .help{font-size:13px;color:var(--muted)}
+.person{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.person .ph{display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:15px}
+.check{cursor:pointer;line-height:1.4;padding-block:2px}
+.check input[type=checkbox],.check input[type=radio]{-webkit-appearance:none;appearance:none;flex:none;width:24px;height:24px;margin:0;border:2px solid var(--muted);border-radius:6px;background:var(--surface);display:inline-grid;place-content:center;cursor:pointer}
+.check input[type=radio]{border-radius:50%}
+.check input:checked{background:var(--cta);border-color:var(--cta)}
+.check input[type=checkbox]:checked::after{content:"";width:6px;height:12px;border:solid var(--on-cta);border-width:0 3px 3px 0;transform:translateY(-1px) rotate(45deg)}
+.check input[type=radio]:checked::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--on-cta)}
+.check input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.notice{font-size:13px;color:var(--muted);margin:10px 0 0;padding-left:10px;border-left:3px solid var(--line);max-width:70ch}
+.tgprev{white-space:pre-line;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px;line-height:1.5;max-width:60ch}
+.tag.guest{background:var(--orange-soft);color:var(--orange-ink);font-size:11px;padding:1px 6px;vertical-align:1px}
+.plist{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.movelist{display:flex;flex-direction:column;gap:8px}
+.movelist .btn{text-align:left}
+.recap{background:var(--bg);border-radius:12px;padding:12px;font-size:15px}
+.recap ul{margin:4px 0 0;padding-left:18px}
+.err{color:var(--danger);font-size:14px;margin:0}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px}
+
+
+.subtabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat .n{font-family:var(--f-display);font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted);margin-top:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;min-width:0}
+.panel h3{font-size:21px;margin-bottom:2px}
+.panel .meta{font-size:14px;color:var(--muted);margin-bottom:10px}
+.scroll{overflow-x:auto}
+table.list{width:100%;border-collapse:collapse;font-size:15px}
+table.list th{text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.list td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.list tr.wait td{color:var(--muted)}
+table.list tr.absent td:first-child{color:var(--danger)}
+.contact{font-size:14px;color:var(--muted);word-break:break-all}
+.pending{border-color:var(--orange);background:var(--orange-soft)}
+.kv{display:flex;gap:24px;flex-wrap:wrap;margin:6px 0 10px}
+.kv div{font-size:15px}
+.kv b{font-family:var(--f-display);font-weight:400;font-size:28px;display:block;color:var(--orange-ink)}
+.privacy{font-size:13px;color:var(--muted);margin:8px 0 0}
+textarea.tg{width:100%;min-height:150px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+.lock{font-size:14px;color:var(--muted);margin:0 0 16px}
+
+.gdpr{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.gdpr .check{font-size:14px}
+details.info{font-size:14px;background:var(--bg);border-radius:10px;padding:8px 12px}
+details.info summary{cursor:pointer;font-weight:600;color:var(--blue)}
+details.info p{margin:8px 0 0}
+.draftnote{color:var(--orange-ink);font-weight:600}
+.quota{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;font-size:15px}
+.quota label{font-weight:600}
+.quota input{width:80px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.quota .money{color:var(--muted);margin-left:8px}
+.quota .money strong{color:var(--ink);font-variant-numeric:tabular-nums}
+table.list tr.unpaid td:first-child{font-weight:600}
+.gate{display:flex;justify-content:center;padding-block:8px}
+.gate-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:14px}
+.gate-card h1{font-size:34px;color:var(--blue)}
+.gate-card p{margin:0}
+.gate-msg{background:var(--orange-soft);border-radius:10px;padding:10px 12px;font-size:15px}
+.demohint{font-size:13px;color:var(--muted)}
+.addsocio{display:grid;grid-template-columns:1fr 1fr 170px auto;gap:10px;align-items:end}
+@media (max-width:760px){.addsocio{grid-template-columns:1fr 1fr}}
+.addsocio input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+#sociSearch{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.num{font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.pill.ok{background:var(--green-soft);color:var(--green-ink)}
+.pill.ko{background:var(--orange-soft);color:var(--danger)}
+.evhead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.evlist{display:flex;flex-direction:column;margin-top:8px}
+.ev{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+@media (max-width:640px){.ev{grid-template-columns:52px 1fr}.ev .actions{grid-column:2}}
+.ev .meta{margin:2px 0 0}
+.ev.skipped .evbody strong{text-decoration:line-through;color:var(--muted)}
+.evdate{font-family:var(--f-display);font-size:24px;color:var(--blue);font-variant-numeric:tabular-nums}
+.pill.wait{background:var(--blue-soft);color:var(--blue)}
+.pill.muted{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.newsat{border:2px solid var(--cta);border-radius:14px;padding:16px;margin:12px 0;display:flex;flex-direction:column;gap:12px}
+.newsat h3{font-size:20px}
+.ns-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.ns-grid{grid-template-columns:1fr}}
+.ns-grid input,.ns-grid select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.copytab{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;margin:0}
+.copytab legend{font-size:14px;font-weight:600;padding:0 4px}
+.thead{display:flex;gap:12px;align-items:flex-start}
+.thead>div{min-width:0}
+.cover{width:72px;height:72px;flex:none;border-radius:10px;object-fit:cover;background:var(--bg);border:1px solid var(--line)}
+.cover.ph{display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:26px;border:0;background:var(--blue-soft);color:var(--blue)}
+.pom .cover.ph,.giorno .cover.ph{background:var(--green-soft);color:var(--green-ink)}
+.fri .cover.ph{background:var(--orange-soft);color:var(--orange-ink)}
+.coverprev{width:96px;height:96px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin-top:6px}
+.filebtn{display:inline-block;margin-top:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:12px;z-index:60;max-width:calc(100% - 32px);font-size:15px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+@media (prefers-reduced-motion:no-preference){.toast{animation:pop .25s ease-out}@keyframes pop{from{opacity:.2;transform:translate(-50%,8px)}}}
+
+
+:root{--gdt:#B04A00;--gdr:#6B2C91}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--gdt:#FFA05C;--gdr:#C99AF0} }
+:root[data-theme="dark"]{--gdt:#FFA05C;--gdr:#C99AF0}
+.table{position:relative}
+.stamp{display:inline-block;font-family:var(--f-display);font-size:15px;letter-spacing:.08em;line-height:1;padding:5px 7px 4px;border:2px solid currentColor;border-radius:6px;transform:rotate(-6deg);flex:none;background:var(--surface)}
+.stamp.gdt{color:var(--gdt)} .stamp.gdr{color:var(--gdr)}
+.table>.stamp{position:absolute;top:12px;right:12px}
+.table .thead{padding-right:52px}
+.tipo-pick{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:16px;flex-wrap:wrap;margin:0}
+.tipo-pick legend{font-size:14px;font-weight:600;padding:0 4px}
+.tipo-filter{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 4px}
+
+.loading{display:flex;align-items:center;gap:12px;color:var(--muted);padding-block:40px;justify-content:center}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--cta)}
+@media (prefers-reduced-motion:no-preference){.spin{animation:sp 0.8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}}
+.empty-state{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:left;max-width:560px}
+.empty-state h2{font-size:26px;color:var(--blue);margin-bottom:6px}
+.empty-state p{margin:0;color:var(--muted)}
+.busy{opacity:.6;pointer-events:none}
+.selectable{user-select:all}
+.sat-switch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.manage{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;max-width:640px}
+.manage h2{font-size:28px;color:var(--blue)}
+.mrow{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
+.mrow .lbl{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.pick-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.pick-list button{text-align:left}
+.confirm{background:var(--orange-soft);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+</style>
+
+<script>window.addEventListener('error',function(e){var a=document.getElementById('app');if(!a||a.textContent.trim())return;var m=String(e.message||'errore');a.innerHTML='<div class="empty-state"><h2>La pagina non è partita</h2><p>'+m.replace(/</g,'&lt;')+'</p>'+(/defined|definit/.test(m)?'<p>Probabilmente il file Comune è vuoto o incompleto: ricarica il file index.html su GitHub.</p>':'<p>Probabilmente un file è stato caricato a metà: ricarica index.html e config.js su GitHub.</p>')+'</div>';});</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><img src="logo.png" alt="Logo NoFerPlei APS"><div><b>Tavoli NoFerPlei</b><small>Reggio Emilia</small></div></div>
+  <nav class="tabs" id="tabs" aria-label="Sezioni"></nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<div id="barSlot"></div>
+<div id="modalSlot"></div>
+<div id="toastSlot"></div>
+
+<script src="config.js"></script>
+<script>
+
+const MEEPLE='M12 2a3.2 3.2 0 0 1 3.2 3.2c0 .9-.3 1.6-.8 2.2 2.6.6 6.6 1.9 6.6 3.6 0 1-1.6 1.4-4 1.3l3.2 7.8c.2.6-.2 1.1-.8 1.1h-4.4L12 16.6l-3 4.6H4.6c-.6 0-1-.5-.8-1.1L7 12.3c-2.4.1-4-.3-4-1.3 0-1.7 4-3 6.6-3.6-.5-.6-.8-1.3-.8-2.2A3.2 3.2 0 0 1 12 2z';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=x=>String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase().replace(/\s+/g,' ');
+const $=id=>document.getElementById(id);
+const FOTO={};
+
+function call(fn,...args){
+  if(window.NFP_API){
+    return fetch(window.NFP_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args}),credentials:'omit',redirect:'follow'})
+      .catch(()=>{throw new Error('Non riesco a collegarmi. Controlla la connessione e riprova.');})
+      .then(r=>{if(!r.ok)throw new Error('Il server non risponde in questo momento. Riprova tra poco.');return r.json().catch(()=>{throw new Error('Il server non risponde in questo momento. Riprova tra poco.');});})
+      .then(j=>{if(j&&j.error)throw new Error(j.error);return j?j.result:null;});
+  }
+  return new Promise((res,rej)=>{
+    google.script.run.withSuccessHandler(res).withFailureHandler(e=>{
+      const m=String((e&&e.message)||e||'Errore').replace(/^(Exception|Error|Eccezione):\s{0,9}/,'');
+      rej(new Error(m));
+    })[fn](...args);
+  });
+}
+function seatsSvg(taken,total,max=14){
+  const shown=Math.min(total,max);let s='';
+  for(let i=0;i<shown;i++)s+=`<svg viewBox="0 0 24 24" aria-hidden="true"><path class="${i<taken?'on':'off'}" d="${MEEPLE}"/></svg>`;
+  if(total>max)s+=`<span class="seatinfo">+${total-max}</span>`;
+  return `<div class="seats" role="img" aria-label="${Math.min(taken,total)} posti occupati su ${total}">${s}</div>`;
+}
+function freeTxt(f,total){return f>0?`<b>${f}</b> ${f===1?'posto libero':'posti liberi'} su ${total}`:'<span class="full">Pieno</span>';}
+function toast(msg,ms=4200){const el=$('toastSlot');el.innerHTML=`<div class="toast" role="status">${esc(msg)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>el.innerHTML='',ms);}
+function openModal(html){$('modalSlot').innerHTML=`<div class="overlay" id="ov"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;
+  $('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeModal();});
+  const f=document.querySelector('.modal input,.modal select,.modal button');if(f)f.focus();}
+function closeModal(){$('modalSlot').innerHTML='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function loading(msg){return `<div class="loading"><div class="spin"></div><span>${esc(msg||'Carico…')}</span></div>`;}
+function showErr(id,m){const e=$(id);if(e){e.textContent=m;e.hidden=false;}}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){return null;}}
+function initials(g){return String(g).replace(/[:&,]/g,' ').split(/\s+/).filter(w=>w&&!/^(il|lo|la|i|gli|le|di|del|the|of|a|e)$/i.test(w)).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';}
+function coverHtml(t){const u=FOTO[t.id];return u?`<img class="cover" src="${u}" alt="Scatola di ${esc(t.gioco)}">`:`<div class="cover ph" aria-hidden="true"><span>${esc(initials(t.gioco))}</span></div>`;}
+async function loadFoto(ids){ids=ids.filter(id=>!(id in FOTO));if(!ids.length)return false;
+  try{const m=await call('apiFoto',ids);ids.forEach(id=>FOTO[id]=m[id]||'');return Object.values(m).length>0;}catch(e){return false;}}
+function shrinkImage(file,max=320,q=0.8){return new Promise((ok,ko)=>{const r=new FileReader();r.onerror=ko;r.onload=()=>{const im=new Image();im.onerror=ko;im.onload=()=>{
+  const k=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);let u=c.toDataURL('image/jpeg',q);
+  if(u.length>46000){u=c.toDataURL('image/jpeg',0.55);}
+  if(u.length>46000){const c2=document.createElement('canvas');c2.width=Math.round(c.width*0.7);c2.height=Math.round(c.height*0.7);c2.getContext('2d').drawImage(c,0,0,c2.width,c2.height);u=c2.toDataURL('image/jpeg',0.6);}
+  ok(u);};im.src=r.result;};r.readAsDataURL(file);});}
+function bindCover(inputId,previewId,onDone){const inp=$(inputId),pv=$(previewId);
+  inp.onchange=()=>{const f=inp.files[0];if(!f){onDone(null);pv.hidden=true;return;}
+    shrinkImage(f).then(u=>{onDone(u);pv.src=u;pv.hidden=false;}).catch(()=>{onDone(null);pv.hidden=true;toast('Non riesco a leggere questa immagine: prova con un JPG o PNG.');});};}
+function copyText(text,okMsg){try{navigator.clipboard.writeText(text).then(()=>toast(okMsg||'Copiato.'),()=>toast('Tieni premuto sul testo per copiarlo.'));}catch(e){toast('Tieni premuto sul testo per copiarlo.');}}
+function stamp(t){return t.tipo==='gdr'?'<span class="stamp gdr" title="Gioco di ruolo">GDR</span>':'<span class="stamp gdt" title="Gioco da tavolo">GDT</span>';}
+function tipoField(id,cur){return `<fieldset class="tipo-pick"><legend>Che tipo di tavolo è?</legend>
+  <label class="check"><input type="radio" name="${id}" value="gdt" ${cur!=='gdr'?'checked':''}> Gioco da tavolo (GDT)</label>
+  <label class="check"><input type="radio" name="${id}" value="gdr" ${cur==='gdr'?'checked':''}> Gioco di ruolo (GDR)</label></fieldset>`;}
+function tipoVal(id){const r=document.querySelector(`input[name="${id}"]:checked`);return r?r.value:'gdt';}
+const FASCIA_NOME={pom:'Pomeriggio',sera:'Sera',giorno:'Tutto il giorno'};
+function dayTime(ev){const a=String(ev.orario_pom||'').split('–')[0].trim(),b=String(ev.orario_sera||'').split('–').pop().trim();return a&&b?a+' – '+b:'';}
+function slotOptions(cur){return ['pom','sera','giorno'].map(f=>`<option value="${f}" ${cur===f?'selected':''}>${f==='giorno'?'Tutto il giorno (pomeriggio + sera)':FASCIA_NOME[f]}</option>`).join('');}
+function descField(id,val){return `<div class="field"><label for="${id}">Descrizione breve del gioco (facoltativa)</label>
+  <textarea id="${id}" maxlength="300" rows="3" placeholder="es. Gestionale sugli zoo per 2-4 giocatori, circa 3 ore. Spiego io le regole: va bene anche per chi non l'ha mai giocato.">${esc(val||'')}</textarea>
+  <span class="help desc-help"><span>Compare sulla scheda del tavolo: di cosa parla, quanto dura, se spieghi le regole.</span><span id="${id}_n">${String(val||'').length}/300</span></span></div>`;}
+function bindDesc(id){const t=$(id),n=$(id+'_n');if(t&&n)t.addEventListener('input',()=>{n.textContent=t.value.length+'/300';});}
+function hm(s){const m=String(s||'').match(/(\d{1,2})[:.](\d{2})/);return m?(+m[1])*60+(+m[2]):null;}
+function parseRange(s){const p=String(s||'').split(/\s*[–-]\s*/);const f=x=>{const v=hm(x);return v==null?'':String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');};return [f(p[0]),f(p[1])];}
+function durTxt(a,b){const x=hm(a),y=hm(b);if(x==null||y==null||x===y)return '';let d=y-x;if(d<0)d+=1440;const h=Math.floor(d/60),m=d%60;return (h?h+' h':'')+(h&&m?' ':'')+(m?m+' min':'');}
+function timeWithDur(s){const [a,b]=parseRange(s);const d=durTxt(a,b);return esc(s||'')+(d?` <span class="dur">· ${d}</span>`:'');}
+function personTxt(p){return esc(p.nome)+(p.ospite?` <span class="tag guest"${p.di?` title="ospite di ${esc(p.di)}"`:''}>ospite</span>`:'');}
+
+function openPeople(o){
+  let q='',timer=null,busyP=false;
+  const draw=()=>{const free=o.posti-o.giocatori.length;
+    openModal(`<h2>${esc(o.titolo)}</h2><p class="lead">${free>0?`${free} ${free===1?'posto libero':'posti liberi'} su ${o.posti}`:'Tavolo completo'}</p>
+      <div class="plist">${o.giocatori.map(p=>`<div class="prow"><span>${personTxt(p)}</span>${p.k===o.proponente?'<span class="contact">propone</span>':`<button type="button" class="btn small danger" data-rmp="${esc(p.k)}">Togli</button>`}</div>`).join('')}</div>
+      ${free>0?`<div class="field"><label for="pp_q">Aggiungi un socio o un ospite</label><input type="search" id="pp_q" value="${esc(q)}" autocomplete="off" placeholder="Scrivi almeno ${o.minLen} lettere del nome o del cognome"><span class="help">Si possono aggiungere solo i soci e gli ospiti già segnati per questa sera.</span></div><div id="pp_res" class="movelist"></div>`:''}
+      <p class="err" id="pp_err" hidden></p>
+      <div class="modal-actions"><button type="button" class="btn primary" id="pp_ok">Fatto</button></div>`);
+    $('pp_ok').onclick=closeModal;
+    document.querySelectorAll('[data-rmp]').forEach(b=>b.onclick=()=>run('togli',b.dataset.rmp));
+    const qi=$('pp_q');
+    if(qi){qi.focus();qi.setSelectionRange(q.length,q.length);qi.oninput=()=>{q=qi.value;clearTimeout(timer);timer=setTimeout(find,300);};if(q)find();}
+  };
+  const find=async()=>{const box=$('pp_res');if(!box)return;
+    if(q.replace(/\s/g,'').length<o.minLen){box.innerHTML='';return;}
+    box.innerHTML='<p class="contact">Cerco…</p>';
+    try{const list=await o.search(q);if(!$('pp_res'))return;
+      const at=new Set(o.giocatori.map(p=>p.k));
+      $('pp_res').innerHTML=list.length?list.map(p=>`<button type="button" class="btn ghost" data-addp="${esc(p.k)}" ${at.has(p.k)?'disabled':''}>${personTxt(p)}${p.ospite&&p.di?` <span class="contact">· ospite di ${esc(p.di)}</span>`:''}${at.has(p.k)?' <span class="contact">· già al tavolo</span>':''}</button>`).join(''):'<p class="contact">Nessun socio o ospite con questo nome. Se è un ospite, segnalo prima tra gli ospiti della serata.</p>';
+      document.querySelectorAll('[data-addp]').forEach(b=>b.onclick=()=>run('aggiungi',b.dataset.addp));}
+    catch(e){if($('pp_res'))$('pp_res').innerHTML=`<p class="err">${esc(e.message)}</p>`;}};
+  const run=async(a,k)=>{if(busyP)return;busyP=true;
+    try{const t=await o.act(a,k);busyP=false;if(!t){closeModal();return;}o.giocatori=t.giocatori;o.posti=t.posti;if(a==='aggiungi'){q='';}draw();}
+    catch(e){busyP=false;showErr('pp_err',e.message);}};
+  draw();
+}
+function dd(iso){const [y,m,d]=String(iso).slice(0,10).split('-');return `${d}/${m}`;}
+</script>
+
+<script>
+const URL_TOKEN=(new URLSearchParams(location.search).get('t')||'').replace(/[^A-Za-z0-9]/g,'');
+const START_VIEW=(new URLSearchParams(location.search).get('v')==='ven'?'venerdi':'');
+let PUB=null, VIEW='sabato', SATI=0, MANAGE_TOKEN=URL_TOKEN||'', MANAGE=null;
+const MYREG={};            // iscrizione fatta da questo telefono, per sabato
+const sel={pom:null,sera:null,pizza:false};
+let guests=[], mainVals=blankVals();
+let FRI_TOKEN=store('nfp_ven')||'', FRI=null, friCover=null, propCover=null;
+
+function blankVals(){return {nome:'',cognome:'',email:'',cell:'',vegana:false,intol:'',privacy:false,salute:false};}
+const sat=()=>PUB&&PUB.sabati[SATI];
+
+
+async function init(){
+  $('app').innerHTML=loading('Carico i tavoli…');
+  try{
+    PUB=await call('apiPublic');
+    await Promise.all(PUB.sabati.map(async s=>{const t=store('nfp_reg_'+s.id);if(!t)return;
+      try{MYREG[s.id]=Object.assign(await call('apiManage',t),{token:t});}catch(e){store('nfp_reg_'+s.id,null);}}));
+    if(MANAGE_TOKEN){VIEW='gestione';}
+    else if(START_VIEW==='venerdi'){VIEW='venerdi';}
+    else if(!PUB.sabati.length&&PUB.venerdi)VIEW='venerdi';
+    render();
+    loadFoto(PUB.sabati.flatMap(s=>s.tavoli.filter(t=>t.foto).map(t=>t.id))).then(ch=>{if(ch&&VIEW==='sabato')renderSat();});
+  }catch(e){$('app').innerHTML=`<div class="empty-state"><h2>Qualcosa non va</h2><p>${esc(e.message)}</p><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="init()">Riprova</button></div></div>`;}
+}
+async function refreshPub(){try{PUB=await call('apiPublic');if(SATI>=PUB.sabati.length)SATI=0;}catch(e){}}
+document.addEventListener('visibilitychange',async()=>{if(document.visibilityState!=='visible'||!PUB||$('ov'))return;
+  if(VIEW==='sabato'){await refreshPub();renderSat();}
+  else if(VIEW==='venerdi'&&FRI_TOKEN){await loadFri();}});
+
+function renderTabs(){
+  let h=PUB.sabati.map((s,i)=>`<a href="#" data-tab="sabato" data-i="${i}" aria-current="${VIEW==='sabato'&&SATI===i?'page':'false'}">Sabato ${dd(s.data)}</a>`).join('');
+  if(!PUB.sabati.length)h+=`<a href="#" data-tab="sabato" data-i="0" aria-current="${VIEW==='sabato'?'page':'false'}">Sabato</a>`;
+  h+=`<a href="#" data-tab="venerdi" aria-current="${VIEW==='venerdi'?'page':'false'}">Venerdì soci</a>`;
+  if(MANAGE_TOKEN)h+=`<a href="#" data-tab="gestione" aria-current="${VIEW==='gestione'?'page':'false'}">La mia iscrizione</a>`;
+  $('tabs').innerHTML=h;
+  document.querySelectorAll('[data-tab]').forEach(a=>a.onclick=e=>{e.preventDefault();VIEW=a.dataset.tab;if(a.dataset.i)SATI=+a.dataset.i;render();});
+}
+function render(){renderTabs();closeModal();window.scrollTo(0,0);
+  if(VIEW==='sabato')renderSat();else if(VIEW==='venerdi')renderFri();else renderManage();}
+
+
+function tableCard(t,s,reg){
+  const f=t.posti-t.occupati, chosen=(t.fascia==='giorno'?sel.pom:sel[t.fascia])===t.id;
+  const mine=reg&&reg[t.fascia]&&reg[t.fascia].id===t.id;
+  let act='';
+  if(mine)act=`<span class="btn on" aria-disabled="true">${reg[t.fascia].attesa?'Sei in lista d\'attesa':'Sei iscritto ✓'}</span>`;
+  else if(!reg&&!s.tavoli_chiusi)act=`<button class="btn ${chosen?'on':(f>0?'':'ghost')}" data-pick="${t.id}">${chosen?'Scelto ✓':(f>0?'Scelgo questo':'Lista d\'attesa')}</button>`;
+  return `<article class="table ${chosen||mine?'chosen':''}">${stamp(t)}
+    <div class="thead">${coverHtml(t)}<div><h3>${esc(t.gioco)}</h3>${t.referente?`<div class="host">Al tavolo con ${esc(t.referente)}</div>`:''}</div></div>
+    ${t.nota?`<p class="note">${esc(t.nota)}</p>`:''}
+    ${seatsSvg(t.occupati,t.posti)}
+    <div class="seatinfo">${freeTxt(f,t.posti)}${f<=0&&t.attesa?` · ${t.attesa} in lista d'attesa`:''}</div>
+    <div class="actions">${act}</div></article>`;
+}
+function slotBlock(s,fascia,name,time,cls,reg,note){
+  const list=s.tavoli.filter(t=>t.fascia===fascia);
+  return `<section class="slot ${cls}"><div class="slot-head"><h2>${name}</h2><span class="time">${timeWithDur(time)}</span><span class="hint">${note?esc(note)+' · ':''}${list.length} ${list.length===1?'tavolo':'tavoli'}</span></div>
+    ${list.length?`<div class="grid">${list.map(t=>tableCard(t,s,reg)).join('')}</div>`:'<p class="names">Ancora nessun tavolo in questa fascia.</p>'}</section>`;
+}
+function renderSat(){
+  const s=sat();
+  if(!s){$('app').innerHTML=`<section class="hero"><div><h1>Sabati di gioco</h1></div></section><div class="empty-state"><h2>Nessun sabato in programma</h2><p>Appena ne apriamo uno lo trovi qui. Segui il gruppo Telegram e i social di NoFerPlei per non perderlo.</p></div>`;renderBar();return;}
+  const reg=MYREG[s.id];
+  const how=`Scegli un tavolo per fascia (anche solo uno)${s.tavoli.some(t=>t.fascia==='giorno')?' oppure uno per tutto il giorno':''}, segna se ti fermi a cena e completa l'iscrizione.`;
+  let h=`<section class="hero"><div>${s.titolo?`<div class="eyebrow">${esc(cap(s.giorno))}</div><h1>${esc(s.titolo)}</h1>`:`<h1>${esc(cap(s.giorno))}</h1>`}
+    ${s.descrizione?`<p class="ev-desc">${esc(s.descrizione)}</p>`:`<p>Pomeriggio di gioco, pizza tutti insieme e serata.</p>`}<p class="how">${how}</p>${PUB.avviso?`<p class="notice">${esc(PUB.avviso)}</p>`:''}</div>
+    <div class="facts"><span class="chip">${s.tavoli_chiusi?'<strong>Iscrizioni chiuse</strong>':'Tavoli fino a '+esc(s.chiusura_tavoli_txt)}</span><span class="chip">${esc(PUB.sede)}</span></div></section>`;
+  if(reg)h+=`<div class="who" style="margin-bottom:8px"><span>Sei iscritto come <strong>${esc(reg.nome)}</strong>${reg.persone.length>1?` con ${reg.persone.length-1} ${reg.persone.length===2?'accompagnatore':'accompagnatori'}`:''}. Puoi avere una sola iscrizione per evento.</span><button class="btn ghost small" id="goManage">Cambia o cancella</button></div>`;
+  else if(s.tavoli_chiusi)h+=`<div class="gate-msg" style="margin-bottom:8px"><strong>Le iscrizioni sono chiuse.</strong> Puoi ancora vedere i tavoli. Per un posto all'ultimo momento scrivi a <span class="selectable">${esc(PUB.mail)}</span>.</div>`;
+  if(s.tavoli.some(t=>t.fascia==='giorno'))h+=slotBlock(s,'giorno','Tutto il giorno',dayTime(s),'giorno',reg,'Pomeriggio e sera allo stesso tavolo');
+  h+=slotBlock(s,'pom','Pomeriggio',s.orario_pom,'pom',reg);
+  const pizzaBtn=reg?(reg.cena?'<span class="btn on" aria-disabled="true">Sei a cena ✓</span>':''):(s.cena_chiusa?'':`<button class="btn ${sel.pizza?'on':''}" id="pizzaBtn">${sel.pizza?'Mi fermo a cena ✓':'Mi fermo a cena'}</button>`);
+  h+=`<section class="slot piz"><div class="slot-head"><h2>Pizza</h2><span class="time">ore ${esc(s.orario_pizza)}</span><span class="hint">${s.cena_chiusa?'Prenotazioni per la cena chiuse':'Prenota entro '+esc(s.chiusura_cena_txt)+' · si paga in sede'}</span></div>
+    <div class="pizza"><div class="count">${s.a_cena}</div><p>persone si fermano a cena finora. Puoi scegliere la pizza vegana e segnalarci intolleranze quando completi l'iscrizione.</p>${pizzaBtn}</div></section>`;
+  h+=slotBlock(s,'sera','Sera',s.orario_sera,'sera',reg);
+  if(!s.tavoli_chiusi)h+=`<section class="propose"><p><strong>Vuoi portare un gioco?</strong> Proponi un tavolo: lo pubblichiamo dopo un'occhiata degli organizzatori.</p><button class="btn ghost" id="proposeBtn">Proponi un tavolo</button></section>`;
+  $('app').innerHTML=h;
+  document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{const t=s.tavoli.find(x=>x.id===b.dataset.pick);
+    if(t.fascia==='giorno'){const on=sel.pom===t.id;sel.pom=sel.sera=on?null:t.id;}
+    else{if(daySel())sel.pom=sel.sera=null;sel[t.fascia]=sel[t.fascia]===t.id?null:t.id;}
+    renderSat();});
+  const pb=$('pizzaBtn');if(pb)pb.onclick=()=>{sel.pizza=!sel.pizza;renderSat();};
+  const pr=$('proposeBtn');if(pr)pr.onclick=openPropose;
+  const gm=$('goManage');if(gm)gm.onclick=()=>{MANAGE_TOKEN=reg.token;MANAGE=null;VIEW='gestione';render();};
+  renderBar();
+}
+const cap=s=>String(s).charAt(0).toUpperCase()+String(s).slice(1);
+const daySel=()=>!!sel.pom&&sel.pom===sel.sera;
+function renderBar(){
+  const s=sat(), slot=$('barSlot');
+  if(VIEW!=='sabato'||!s||MYREG[s.id]||s.tavoli_chiusi||(!sel.pom&&!sel.sera&&!sel.pizza)){slot.innerHTML='';return;}
+  const nm=id=>{const t=s.tavoli.find(x=>x.id===id);return t?esc(t.gioco)+(t.posti-t.occupati<=0?' (lista d\'attesa)':''):'—';};
+  slot.innerHTML=`<div class="bar"><div class="wrap"><div class="sum"><b>La tua giornata:</b> ${daySel()?`Tutto il giorno: ${nm(sel.pom)} · Pizza: ${sel.pizza?'sì':'no'}`:`Pomeriggio: ${nm(sel.pom)} · Pizza: ${sel.pizza?'sì':'no'} · Sera: ${nm(sel.sera)}`}</div><button class="btn primary" id="goReg">Completa l'iscrizione</button></div></div>`;
+  $('goReg').onclick=openRegister;
+}
+
+
+function personBlock(i,label,removable){
+  const g=i===0?mainVals:guests[i-1];
+  return `<div class="person"><div class="ph"><span>${label}</span>${removable?`<button type="button" class="btn small danger" data-rm="${i}">Togli</button>`:''}</div>
+    ${i>0?`<div class="field"><label for="gname${i}">Nome e cognome</label><input type="text" id="gname${i}" value="${esc(g.nome||'')}" data-g="${i}" data-k="nome"></div>`:''}
+    ${sel.pizza?`<label class="check"><input type="checkbox" id="veg${i}" ${g.vegana?'checked':''} data-g="${i}" data-k="vegana"> Pizza vegana</label>
+    <div class="field"><label for="int${i}">Intolleranze o allergie (facoltativo)</label><input type="text" id="int${i}" placeholder="es. lattosio" value="${esc(g.intol||'')}" data-g="${i}" data-k="intol"></div>`:''}</div>`;
+}
+const needSalute=()=>sel.pizza&&(String(mainVals.intol).trim()||guests.some(g=>String(g.intol||'').trim()));
+function openRegister(){
+  const s=sat();
+  const recap=[],gn=id=>s.tavoli.find(t=>t.id===id).gioco;
+  if(daySel())recap.push('Tutto il giorno: '+gn(sel.pom));else if(sel.pom)recap.push('Pomeriggio: '+gn(sel.pom));
+  if(sel.pizza)recap.push('Pizza alle '+s.orario_pizza);
+  if(sel.sera&&!daySel())recap.push('Sera: '+gn(sel.sera));
+  openModal(`<h2>Completa l'iscrizione</h2><p class="lead">${esc(cap(s.giorno))}</p>
+  <form class="form" id="regForm" novalidate>
+    <div class="recap"><strong>Hai scelto</strong><ul>${recap.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>
+    <div class="row2"><div class="field"><label for="nome">Nome</label><input type="text" id="nome" autocomplete="given-name" value="${esc(mainVals.nome)}"></div>
+    <div class="field"><label for="cognome">Cognome</label><input type="text" id="cognome" autocomplete="family-name" value="${esc(mainVals.cognome)}"></div></div>
+    <div class="field"><label for="email">Mail</label><input type="email" id="email" autocomplete="email" value="${esc(mainVals.email)}"><span class="help">Ti mandiamo qui la conferma, il promemoria e il link per cambiare o cancellare l'iscrizione.</span></div>
+    <div class="field"><label for="cell">Cellulare (facoltativo)</label><input type="tel" id="cell" autocomplete="tel" value="${esc(mainVals.cell)}"><span class="help">Serve solo agli organizzatori se dobbiamo cercarti il giorno stesso.</span></div>
+    ${sel.pizza?personBlock(0,'Per te, a cena',false):''}
+    <div>${guests.map((g,i)=>personBlock(i+1,'Accompagnatore '+(i+1),true)).join('')}</div>
+    <div><button type="button" class="btn ghost small" id="addGuest">+ Aggiungi un accompagnatore</button><div class="help" style="font-size:13px;color:var(--muted);margin-top:4px">Gli accompagnatori occupano un posto negli stessi tavoli che hai scelto.</div></div>
+    ${PUB.avviso?`<p class="notice" style="margin:0">${esc(PUB.avviso)}</p>`:''}
+    <div class="gdpr">
+      <label class="check"><input type="checkbox" id="privacy" ${mainVals.privacy?'checked':''}> Ho letto l'informativa e acconsento al trattamento dei miei dati${guests.length?' e di quelli dei miei accompagnatori':''} ai sensi del Regolamento UE 2016/679 (GDPR), solo per l'organizzazione di questo evento.</label>
+      <label class="check" id="saluteRow" ${needSalute()?'':'hidden'}><input type="checkbox" id="salute" ${mainVals.salute?'checked':''}> Acconsento in modo esplicito al trattamento dei dati su allergie e intolleranze (art. 9 GDPR), usati solo per ordinare la cena e cancellati in automatico tre giorni dopo l'evento.</label>
+      <details class="info"><summary>Leggi l'informativa privacy</summary>
+        <p><strong>Chi tratta i dati:</strong> NoFerPlei APS, Reggio Emilia (contatto: ${esc(PUB.mail)}).</p>
+        <p><strong>Quali dati:</strong> nome, cognome, mail, cellulare se lo lasci, tavoli scelti, scelte per la cena. Per gli accompagnatori solo nome, cognome e scelte per la cena.</p>
+        <p><strong>A cosa servono:</strong> solo a organizzare questo evento: posti ai tavoli, lista d'attesa, mail di conferma e promemoria, ordine della cena. Non li usiamo per altro e non li diamo a nessuno.</p>
+        <p><strong>Allergie e intolleranze:</strong> le vedono solo gli organizzatori, servono solo per la cena e si cancellano tre giorni dopo l'evento.</p>
+        <p><strong>Per quanto li teniamo:</strong> gli altri dati si cancellano 10 giorni dopo l'evento.</p>
+        <p><strong>I tuoi diritti:</strong> puoi chiedere in ogni momento di vedere, correggere o cancellare i tuoi dati scrivendo a ${esc(PUB.mail)}.</p>
+      </details>
+    </div>
+    <p class="err" id="err" hidden></p>
+    <div class="modal-actions"><button type="button" class="btn ghost" id="cancelReg">Indietro</button><button type="submit" class="btn primary" id="sendReg">Conferma iscrizione</button></div>
+  </form>`);
+  const form=$('regForm');
+  const sync=()=>{['nome','cognome','email'].forEach(k=>mainVals[k]=$(k).value);mainVals.cell=$('cell').value;
+    if(sel.pizza){mainVals.vegana=$('veg0').checked;mainVals.intol=$('int0').value;}
+    mainVals.privacy=$('privacy').checked;mainVals.salute=$('salute').checked;
+    form.querySelectorAll('[data-g]').forEach(el=>{const i=+el.dataset.g;if(i===0)return;guests[i-1][el.dataset.k]=el.type==='checkbox'?el.checked:el.value;});
+    $('saluteRow').hidden=!needSalute();};
+  form.addEventListener('input',sync);form.addEventListener('change',sync);
+  $('addGuest').onclick=()=>{sync();guests.push({nome:'',vegana:false,intol:''});openRegister();};
+  form.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{sync();guests.splice(+b.dataset.rm-1,1);openRegister();});
+  $('cancelReg').onclick=()=>{sync();closeModal();};
+  form.addEventListener('submit',async e=>{e.preventDefault();sync();
+    if(!mainVals.nome.trim()||!mainVals.cognome.trim())return showErr('err','Scrivi nome e cognome.');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mainVals.email.trim()))return showErr('err','Controlla la mail: sembra incompleta.');
+    if(guests.some(g=>!String(g.nome).trim()))return showErr('err','Scrivi il nome di ogni accompagnatore, oppure toglilo.');
+    if(!mainVals.privacy)return showErr('err','Per iscriverti serve la spunta sull\'informativa privacy.');
+    if(needSalute()&&!mainVals.salute)return showErr('err','Per salvare allergie e intolleranze serve anche la seconda spunta, quella specifica.');
+    const btn=$('sendReg');btn.disabled=true;btn.textContent='Invio…';
+    try{
+      const res=await call('apiRegister',{evento:s.id,pom:sel.pom||'',sera:sel.sera||'',cena:sel.pizza,privacy:mainVals.privacy,salute:mainVals.salute,
+        persone:[{nome:mainVals.nome,cognome:mainVals.cognome,email:mainVals.email,cellulare:mainVals.cell,vegana:mainVals.vegana,intolleranze:mainVals.intol},
+          ...guests.map(g=>({nome:g.nome,vegana:g.vegana,intolleranze:g.intol}))]});
+      store('nfp_reg_'+s.id,res.token);
+      try{MYREG[s.id]=Object.assign(await call('apiManage',res.token),{token:res.token});}catch(_){}
+      sel.pom=sel.sera=null;sel.pizza=false;guests=[];mainVals=blankVals();
+      await refreshPub();renderSat();
+      openModal(`<h2>Fatto, ci vediamo sabato!</h2><p class="lead">Iscrizione registrata${res.persone>1?` per ${res.persone} persone`:''}.</p>
+        <div class="recap"><ul>${res.riepilogo.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div>
+        <p>Ti abbiamo mandato una mail a <strong>${esc(res.email)}</strong> con il riepilogo e il link per cambiare o cancellare l'iscrizione. Se non la trovi, guarda nello spam.</p>
+        <div class="modal-actions"><button class="btn primary" id="okBtn">Torna ai tavoli</button></div>`);
+      $('okBtn').onclick=closeModal;
+    }catch(er){btn.disabled=false;btn.textContent='Conferma iscrizione';showErr('err',er.message);}
+  });
+}
+
+
+function openPropose(){
+  const s=sat();propCover=null;
+  openModal(`<h2>Proponi un tavolo</h2><p class="lead">Un organizzatore lo controlla e lo pubblica, e ti scriviamo quando è online. Il tuo posto al tavolo è già tenuto: iscriviti solo se vuoi anche la cena o un tavolo nell'altra fascia.</p>
+  <form class="form" id="propForm" novalidate>
+    ${tipoField('ptipo','gdt')}
+    <div class="field"><label for="pgame">Gioco</label><input type="text" id="pgame" placeholder="es. Wingspan o Dungeons &amp; Dragons"></div>
+    <div class="row2"><div class="field"><label for="pslot">Fascia</label><select id="pslot">${slotOptions('pom')}</select></div>
+    <div class="field"><label for="pseats">Giocatori in tutto, tu compreso</label><input type="number" id="pseats" min="2" max="20" value="4"></div></div>
+    <div class="row2"><div class="field"><label for="phost">Il tuo nome e cognome</label><input type="text" id="phost" autocomplete="name"></div>
+    <div class="field"><label for="pmail">La tua mail</label><input type="email" id="pmail" autocomplete="email"></div></div>
+    ${descField('pnote','')}
+    <div class="field"><label for="pcover">Foto della scatola (facoltativa)</label><input type="file" id="pcover" accept="image/png,image/jpeg,image/webp,image/heic,image/heif"><span class="help">Va bene una foto col telefono: la rimpiccioliamo noi.</span><img id="pcoverPrev" class="coverprev" hidden alt="Anteprima della foto"></div>
+    <p class="err" id="perr" hidden></p>
+    <div class="modal-actions"><button type="button" class="btn ghost" id="pcancel">Annulla</button><button type="submit" class="btn primary" id="psend">Invia la proposta</button></div>
+  </form>`);
+  $('pcancel').onclick=closeModal;bindDesc('pnote');bindCover('pcover','pcoverPrev',u=>propCover=u);
+  $('propForm').addEventListener('submit',async e=>{e.preventDefault();
+    const b=$('psend');b.disabled=true;b.textContent='Invio…';
+    try{await call('apiPropose',{evento:s.id,tipo:tipoVal('ptipo'),fascia:$('pslot').value,gioco:$('pgame').value,posti:$('pseats').value,nome:$('phost').value,email:$('pmail').value,nota:$('pnote').value,foto:propCover});
+      closeModal();toast('Proposta inviata. Ti scriviamo quando un organizzatore la approva.');}
+    catch(er){b.disabled=false;b.textContent='Invia la proposta';showErr('perr',er.message);}});
+}
+
+
+let manageEdit=null, manageConfirm=false;
+async function renderManage(){
+  if(!MANAGE_TOKEN){VIEW='sabato';return render();}
+  if(!MANAGE){$('app').innerHTML=loading('Carico la tua iscrizione…');
+    try{MANAGE=await call('apiManage',MANAGE_TOKEN);store('nfp_reg_'+MANAGE.evento.id,MANAGE_TOKEN);MYREG[MANAGE.evento.id]=Object.assign({},MANAGE,{token:MANAGE_TOKEN});}
+    catch(e){$('app').innerHTML=`<div class="empty-state"><h2>Iscrizione non trovata</h2><p>${esc(e.message)}</p></div>`;return;}
+    if(!$('app'))return;}
+  const m=MANAGE, s=m.evento, locked=m.passato||s.tavoli_chiusi;
+  const row=(f,label)=>{const cur=m[f];
+    const empty=m.giorno&&f!=='giorno'?'Compreso nel tavolo di tutto il giorno':'Nessun tavolo';
+    let h=`<div class="mrow"><div><div class="lbl">${label}</div><div>${cur?`<strong>${esc(cur.gioco)}</strong>${cur.attesa?' · in lista d\'attesa':''}`:empty}</div></div>${locked?'':`<button class="btn small ghost" data-edit="${f}">${manageEdit===f?'Chiudi':'Cambia'}</button>`}</div>`;
+    if(manageEdit===f){const opts=s.tavoli.filter(t=>t.fascia===f);
+      h+=`<div class="pick-list">${opts.map(t=>{const fr=t.posti-t.occupati;return `<button class="btn ${cur&&cur.id===t.id?'on':'ghost'}" data-move="${f}:${t.id}">${esc(t.gioco)} · ${fr>0?fr+(fr===1?' posto libero':' posti liberi'):'pieno, lista d\'attesa'}</button>`;}).join('')}
+        <button class="btn ghost" data-move="${f}:">Nessun tavolo ${f==='giorno'?'di tutto il giorno':'in questa fascia'}</button></div>`;}
+    return h;};
+  let h=`<div class="manage"><h2>La tua iscrizione</h2><p style="margin:0">${esc(cap(s.giorno))} · ${esc(PUB?PUB.sede:'')}</p>
+    <div class="mrow"><div><div class="lbl">A nome di</div><div><strong>${esc(m.nome)}</strong> · ${esc(m.email)}${m.persone.length>1?`<br>Con: ${esc(m.persone.slice(1).join(', '))}`:''}</div></div></div>
+    ${m.giorno||s.tavoli.some(t=>t.fascia==='giorno')?row('giorno','Tutto il giorno · '+dayTime(s)):''}
+    ${row('pom','Pomeriggio · '+(s.orario_pom||''))}
+    <div class="mrow"><div><div class="lbl">Pizza · ${esc(s.orario_pizza||'')}</div><div>${m.cena?'Sì, a cena':'No'}</div></div><span class="help" style="font-size:13px;color:var(--muted)">Per cambiare la cena scrivi a <span class="selectable">${esc(PUB?PUB.mail:'')}</span></span></div>
+    ${row('sera','Sera · '+(s.orario_sera||''))}
+    ${m.passato?'<p class="names">Questo evento è già passato.</p>':s.tavoli_chiusi?'<p class="names">Le iscrizioni sono chiuse: per cambiare qualcosa scrivi agli organizzatori.</p>':''}
+    ${m.passato?'':manageConfirm?`<div class="confirm"><span>Cancelli l'iscrizione${m.persone.length>1?' per tutte le '+m.persone.length+' persone':''}? Il posto passa a chi è in lista d'attesa.</span><button class="btn small danger" id="yesCancel">Sì, cancella</button><button class="btn small ghost" id="noCancel">No</button></div>`
+      :`<div class="actions"><button class="btn danger" id="askCancel">Cancella l'iscrizione</button><button class="btn ghost" id="toSat">Vedi i tavoli</button></div>`}
+  </div>`;
+  $('app').innerHTML=h;
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{manageEdit=manageEdit===b.dataset.edit?null:b.dataset.edit;renderManage();});
+  document.querySelectorAll('[data-move]').forEach(b=>b.onclick=async()=>{const [f,id]=b.dataset.move.split(':');$('app').classList.add('busy');
+    try{const r=await call('apiMove',MANAGE_TOKEN,f,id);$('app').classList.remove('busy');manageEdit=null;
+      if(r.cancellata){afterCancel('Non avevi più né tavoli né cena: l\'iscrizione è stata cancellata.');return;}
+      MANAGE=r;MYREG[r.evento.id]=Object.assign({},r,{token:MANAGE_TOKEN});await refreshPub();toast('Fatto: tavolo cambiato.');renderManage();}
+    catch(e){$('app').classList.remove('busy');toast(e.message);}});
+  const ac=$('askCancel');if(ac)ac.onclick=()=>{manageConfirm=true;renderManage();};
+  const nc=$('noCancel');if(nc)nc.onclick=()=>{manageConfirm=false;renderManage();};
+  const ts=$('toSat');if(ts)ts.onclick=()=>{VIEW='sabato';SATI=Math.max(0,PUB.sabati.findIndex(x=>x.id===s.id));render();};
+  const yc=$('yesCancel');if(yc)yc.onclick=async()=>{yc.disabled=true;try{await call('apiCancel',MANAGE_TOKEN);afterCancel('Iscrizione cancellata. Grazie di averci avvisato!');}catch(e){yc.disabled=false;toast(e.message);}};
+}
+async function afterCancel(msg){const id=MANAGE.evento.id;store('nfp_reg_'+id,null);delete MYREG[id];MANAGE=null;MANAGE_TOKEN='';manageConfirm=false;
+  await refreshPub();VIEW='sabato';SATI=Math.max(0,PUB.sabati.findIndex(x=>x.id===id));render();toast(msg);}
+
+
+async function loadFri(){
+  try{const st=await call('apiFriState',FRI_TOKEN);
+    if(st.accesso===false){FRI_TOKEN='';store('nfp_ven',null);FRI=null;return renderGate('<div class="gate-msg">Non risulti più nel libro soci di quest\'anno. Se pensi sia un errore scrivi a <span class="selectable">'+esc(PUB.mail)+'</span>.</div>');}
+    FRI=st;renderFriBoard();
+    loadFoto((st.tavoli||[]).filter(t=>t.foto).map(t=>t.id)).then(ch=>{if(ch&&VIEW==='venerdi')renderFriBoard();});
+  }catch(e){$('app').innerHTML=`<div class="empty-state"><h2>Qualcosa non va</h2><p>${esc(e.message)}</p></div>`;}
+}
+function renderFri(){
+  if(!PUB.venerdi){$('app').innerHTML=`<section class="hero"><div><h1>Venerdì sera</h1></div></section><div class="empty-state"><h2>Il venerdì non è ancora aperto</h2><p>La bacheca del venerdì si apre il lunedì della stessa settimana. Il venerdì è riservato ai soci NoFerPlei.</p></div>`;renderBar();return;}
+  if(!FRI_TOKEN)return renderGate();
+  $('app').innerHTML=loading('Carico la bacheca…');renderBar();loadFri();
+}
+function renderGate(msg){
+  $('app').innerHTML=`<section class="gate"><div class="gate-card">
+    <h1>${esc(cap(PUB.venerdi?PUB.venerdi.giorno:'Venerdì sera'))}</h1>
+    <p>Il venerdì è riservato ai soci NoFerPlei. Fai il controllo una volta sola: poi il telefono si ricorda di te.</p>
+    <form class="form" id="gateForm" novalidate>
+      <div class="row2"><div class="field"><label for="gnome">Nome</label><input type="text" id="gnome" autocomplete="given-name"></div>
+      <div class="field"><label for="gcogn">Cognome</label><input type="text" id="gcogn" autocomplete="family-name"></div></div>
+      <div class="field"><label for="gnasc">Data di nascita</label><input type="date" id="gnasc" autocomplete="bday"><span class="help">Serve solo a confermare che sei tu: non la mostriamo a nessuno.</span></div>
+      <div id="gateMsg">${msg||''}</div>
+      <button class="btn primary" type="submit" id="gateBtn">Entra</button>
+    </form></div></section>`;
+  renderBar();
+  $('gateForm').addEventListener('submit',async e=>{e.preventDefault();
+    const b=$('gateBtn');b.disabled=true;b.textContent='Controllo…';
+    try{const r=await call('apiFriLogin',$('gnome').value,$('gcogn').value,$('gnasc').value);
+      if(!r.ok){b.disabled=false;b.textContent='Entra';$('gateMsg').innerHTML=`<div class="gate-msg"><strong>Non ti troviamo tra i soci.</strong> Controlla di aver scritto nome, cognome e data di nascita come quando ti sei tesserato.<br><br>Non sei ancora socio? Per tesserarti manda una mail a <strong class="selectable">${esc(PUB.mail)}</strong> <button type="button" class="btn small ghost" id="copyMail">Copia l'indirizzo</button></div>`;
+        $('copyMail').onclick=()=>copyText(PUB.mail,'Indirizzo copiato.');return;}
+      FRI_TOKEN=r.token;store('nfp_ven',r.token);toast(`Benvenuto, ${r.nome.split(' ')[0]}! Da ora il telefono si ricorda di te.`);
+      $('app').innerHTML=loading('Carico la bacheca…');loadFri();}
+    catch(er){b.disabled=false;b.textContent='Entra';$('gateMsg').innerHTML=`<div class="gate-msg">${esc(er.message)}</div>`;}});
+}
+function renderFriBoard(){
+  const st=FRI;
+  if(!st.venerdi){$('app').innerHTML=`<div class="empty-state"><h2>Il venerdì non è ancora aperto</h2><p>La bacheca si apre il lunedì della stessa settimana.</p></div>`;return;}
+  const v=st.venerdi;
+  let h=`<section class="hero"><div><h1>${esc(cap(v.giorno))}</h1><p>Serata libera ${esc(v.orario)}. Dì che ci sei, proponi un gioco o aggiungiti a una proposta.</p></div>
+    <div class="facts"><span class="chip">Solo soci</span><span class="chip"><strong>${st.presenti}</strong> ci sono</span><span class="chip"><strong>${st.tavoli.length}</strong> proposte</span></div></section>
+    <div class="who"><span>Ciao <strong>${esc(st.me.nome)}</strong> <span class="tag">Socio</span></span><button class="btn ${st.io_ci_sono?'on':''}" id="iamin">${st.io_ci_sono?'Ci sono ✓':'Ci sono'}</button><button class="btn primary" id="propFri">Propongo un gioco</button><button class="btn ghost" id="guestsBtn">Porto un ospite${st.ospiti.some(o=>o.mio)?` (${st.ospiti.filter(o=>o.mio).length})`:''}</button><button class="btn ghost small" id="notme">Non sono io</button></div>
+    <div class="fri-layout fri"><div class="fri-grid">${st.tavoli.length?st.tavoli.map(t=>{const f=t.posti-t.giocatori.length;
+      return `<article class="table ${t.mio?'chosen':''}">${stamp(t)}<div class="thead">${coverHtml(t)}<div><h3>${esc(t.gioco)}</h3><div class="host">Propone ${esc(t.referente)}${t.orario?' · verso le '+esc(t.orario):''}</div></div></div>
+      ${t.nota?`<p class="note">${esc(t.nota)}</p>`:''}${seatsSvg(t.giocatori.length,t.posti)}
+      <div class="seatinfo">${freeTxt(f,t.posti)}</div><p class="names">${t.giocatori.map(personTxt).join(', ')}</p>
+      <div class="actions">${t.proposto?`<button class="btn small" data-people="${t.id}">${f>0?'Aggiungi giocatori':'Gestisci giocatori'}</button><button class="btn danger small" data-fa="ritira" data-t="${t.id}">Ritira la proposta</button>`:t.mio?`<button class="btn ghost" data-fa="esci" data-t="${t.id}">Esco dal tavolo</button>`:`<button class="btn" data-fa="unisciti" data-t="${t.id}" ${f<=0?'disabled':''}>Mi aggiungo</button>`}</div></article>`;}).join(''):'<div class="empty-state"><h2>Ancora nessuna proposta</h2><p>Rompi il ghiaccio: proponi tu il primo gioco della serata.</p></div>'}</div>
+    <aside class="side"><h3>Cercano tavolo</h3>${st.cercano.length?`<ul>${st.cercano.map(p=>`<li>${personTxt(p)}</li>`).join('')}</ul>`:'<p class="empty">Nessuno al momento.</p>'}
+      ${st.ospiti.length?`<h3 style="margin-top:16px">Ospiti di stasera</h3><ul>${st.ospiti.map(o=>`<li>${esc(o.nome)} <span class="contact">· ospite di ${esc(o.di)}</span></li>`).join('')}</ul>`:''}
+      <p class="privacy" style="margin-top:12px">Chi dice "ci sono" e non è ancora a un tavolo compare qui. Chi propone un gioco sa a chi chiedere.</p></aside></div>`;
+  $('app').innerHTML=h;
+  $('iamin').onclick=()=>friAct('presente',{});
+  $('propFri').onclick=openProposeFri;
+  $('guestsBtn').onclick=openGuests;
+  document.querySelectorAll('[data-people]').forEach(b=>b.onclick=()=>{const t=FRI.tavoli.find(x=>x.id===b.dataset.people);
+    openPeople({titolo:t.gioco,posti:t.posti,giocatori:t.giocatori,proponente:t.proponente,minLen:3,
+      search:async q=>{const r=await call('apiFriSearch',FRI_TOKEN,q);if(r.accesso===false)throw new Error('Accesso scaduto: rientra nella bacheca.');return r.risultati||[];},
+      act:async(a,k)=>{const st=await call('apiFriAction',FRI_TOKEN,a,{tavolo:t.id,chi:k});if(st.accesso===false)throw new Error('Accesso scaduto: rientra nella bacheca.');
+        FRI=st;renderFriBoard();toast(a==='aggiungi'?'Aggiunto al tavolo.':'Tolto dal tavolo.');return st.tavoli.find(x=>x.id===t.id);}});});
+  $('notme').onclick=()=>{FRI_TOKEN='';FRI=null;store('nfp_ven',null);renderGate();};
+  document.querySelectorAll('[data-fa]').forEach(b=>b.onclick=()=>friAct(b.dataset.fa,{tavolo:b.dataset.t}));
+}
+async function friAct(a,x){$('app').classList.add('busy');
+  try{const st=await call('apiFriAction',FRI_TOKEN,a,x);$('app').classList.remove('busy');
+    if(st.accesso===false){FRI_TOKEN='';store('nfp_ven',null);return renderGate();}
+    FRI=st;renderFriBoard();if(a==='proponi'){closeModal();toast('Proposta pubblicata.');}if(a==='ritira')toast('Proposta ritirata.');
+    loadFoto(st.tavoli.filter(t=>t.foto).map(t=>t.id)).then(ch=>{if(ch&&VIEW==='venerdi')renderFriBoard();});
+    return true;}
+  catch(e){$('app').classList.remove('busy');if($('ferr'))showErr('ferr',e.message);else toast(e.message);return false;}}
+function openGuests(){
+  const mine=FRI.ospiti.filter(o=>o.mio);
+  openModal(`<h2>Porto un ospite</h2><p class="lead">Segna chi porti stasera: compare come ospite nella bacheca e chi propone un tavolo può aggiungerlo. Al massimo 5 ospiti a testa.</p>
+    ${mine.length?`<div class="plist">${mine.map(o=>`<div class="prow"><span>${esc(o.nome)} <span class="tag guest">ospite</span></span><button type="button" class="btn small danger" data-delg="${o.id}">Togli</button></div>`).join('')}</div>`:''}
+    <form class="form" id="gForm" novalidate><div class="field"><label for="g_n">Nome e cognome dell'ospite</label><input type="text" id="g_n" autocomplete="off"></div>
+    <p class="err" id="g_err" hidden></p>
+    <div class="modal-actions"><button type="button" class="btn ghost" id="g_x">Chiudi</button><button type="submit" class="btn primary" id="g_s">Aggiungi ospite</button></div></form>`);
+  $('g_x').onclick=closeModal;
+  const go=async(a,x,ok)=>{try{const st=await call('apiFriAction',FRI_TOKEN,a,x);if(st.accesso===false){closeModal();FRI_TOKEN='';store('nfp_ven',null);return renderGate();}
+    FRI=st;renderFriBoard();openGuests();toast(ok);}catch(e){showErr('g_err',e.message);}};
+  document.querySelectorAll('[data-delg]').forEach(b=>b.onclick=()=>go('ospite_del',{id:b.dataset.delg},'Ospite tolto.'));
+  $('gForm').addEventListener('submit',e=>{e.preventDefault();const n=$('g_n').value.trim();if(!n)return showErr('g_err','Scrivi nome e cognome dell\'ospite.');go('ospite_add',{nome:n},'Ospite segnato: ora compare nella bacheca.');});
+}
+function openProposeFri(){friCover=null;
+  openModal(`<h2>Propongo un gioco</h2><p class="lead">${esc(cap(FRI.venerdi.giorno))}. Si pubblica subito.</p>
+  <form class="form" id="ffForm" novalidate>
+    ${tipoField('ftipo','gdt')}
+    <div class="field"><label for="fgame">Gioco</label><input type="text" id="fgame" placeholder="es. Cascadia"></div>
+    <div class="row2"><div class="field"><label for="fseats">Giocatori in tutto, tu compreso</label><input type="number" id="fseats" min="2" max="20" value="4"></div>
+    <div class="field"><label for="ftime">Verso che ora (facoltativo)</label><input type="text" id="ftime" placeholder="es. 21:30"></div></div>
+    ${descField('fnote','')}
+    <div class="field"><label for="fcover">Foto della scatola (facoltativa)</label><input type="file" id="fcover" accept="image/png,image/jpeg,image/webp,image/heic,image/heif"><span class="help">Va bene una foto col telefono: la rimpiccioliamo noi.</span><img id="fcoverPrev" class="coverprev" hidden alt="Anteprima della foto"></div>
+    <p class="err" id="ferr" hidden></p>
+    <div class="modal-actions"><button type="button" class="btn ghost" id="fcancel">Annulla</button><button type="submit" class="btn primary" id="fsend">Pubblica</button></div>
+  </form>`);
+  $('fcancel').onclick=closeModal;bindDesc('fnote');bindCover('fcover','fcoverPrev',u=>friCover=u);
+  $('ffForm').addEventListener('submit',async e=>{e.preventDefault();
+    if(!$('fgame').value.trim())return showErr('ferr','Scrivi il nome del gioco.');
+    const b=$('fsend');b.disabled=true;b.textContent='Pubblico…';
+    const ok=await friAct('proponi',{tipo:tipoVal('ftipo'),gioco:$('fgame').value,posti:$('fseats').value,orario:$('ftime').value,nota:$('fnote').value,foto:friCover});
+    if(!ok&&$('fsend')){$('fsend').disabled=false;$('fsend').textContent='Pubblica';}});
+}
+
+init();
+</script>
+</body>
+</html>
