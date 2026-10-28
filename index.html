@@ -401,7 +401,7 @@ const START_VIEW=(new URLSearchParams(location.search).get('v')==='ven'?'venerdi
 let PUB=null, VIEW='sabato', SATI=0, MANAGE_TOKEN=URL_TOKEN||'', MANAGE=null;
 const MYREG={};            // iscrizione fatta da questo telefono, per sabato
 const sel={pom:null,sera:null,pizza:false};
-let guests=[], mainVals=blankVals();
+let guests=[], mainVals=blankVals(), addVals=[];
 let FRI_TOKEN=store('nfp_ven')||'', FRI=null, friCover=null, propCover=null;
 
 function blankVals(){return {nome:'',cognome:'',email:'',cell:'',vegana:false,intol:'',privacy:false,salute:false};}
@@ -443,7 +443,7 @@ function tableCard(t,s,reg){
   const mine=reg&&reg[t.fascia]&&reg[t.fascia].id===t.id;
   let act='';
   if(mine)act=`<span class="btn on" aria-disabled="true">${reg[t.fascia].attesa?'Sei in lista d\'attesa':'Sei iscritto ✓'}</span>`;
-  else if(!reg&&!s.tavoli_chiusi)act=`<button class="btn ${chosen?'on':(f>0?'':'ghost')}" data-pick="${t.id}">${chosen?'Scelto ✓':(f>0?'Scelgo questo':'Lista d\'attesa')}</button>`;
+  else if(!s.tavoli_chiusi&&canPick(t.fascia,reg))act=`<button class="btn ${chosen?'on':(f>0?'':'ghost')}" data-pick="${t.id}">${chosen?'Scelto ✓':(f>0?'Scelgo questo':'Lista d\'attesa')}</button>`;
   return `<article class="table ${chosen||mine?'chosen':''}">${stamp(t)}
     <div class="thead">${coverHtml(t)}<div><h3>${esc(t.gioco)}</h3>${t.referente?`<div class="host">Al tavolo con ${esc(t.referente)}</div>`:''}</div></div>
     ${t.nota?`<p class="note">${esc(t.nota)}</p>`:''}
@@ -451,6 +451,7 @@ function tableCard(t,s,reg){
     <div class="seatinfo">${freeTxt(f,t.posti)}${f<=0&&t.attesa?` · ${t.attesa} in lista d'attesa`:''}</div>
     <div class="actions">${act}</div></article>`;
 }
+function canPick(f,reg){if(!reg)return true;if(reg.giorno)return false;if(f==='giorno')return !reg.pom&&!reg.sera;return !reg[f];}
 function slotBlock(s,fascia,name,time,cls,reg,note){
   const list=s.tavoli.filter(t=>t.fascia===fascia);
   return `<section class="slot ${cls}"><div class="slot-head"><h2>${name}</h2><span class="time">${timeWithDur(time)}</span><span class="hint">${note?esc(note)+' · ':''}${list.length} ${list.length===1?'tavolo':'tavoli'}</span></div>
@@ -464,11 +465,11 @@ function renderSat(){
   let h=`<section class="hero"><div>${s.titolo?`<div class="eyebrow">${esc(cap(s.giorno))}</div><h1>${esc(s.titolo)}</h1>`:`<h1>${esc(cap(s.giorno))}</h1>`}
     ${s.descrizione?`<p class="ev-desc">${esc(s.descrizione)}</p>`:`<p>Pomeriggio di gioco, pizza tutti insieme e serata.</p>`}<p class="how">${how}</p>${PUB.avviso?`<p class="notice">${esc(PUB.avviso)}</p>`:''}</div>
     <div class="facts"><span class="chip">${s.tavoli_chiusi?'<strong>Iscrizioni chiuse</strong>':'Tavoli fino a '+esc(s.chiusura_tavoli_txt)}</span><span class="chip">${esc(PUB.sede)}</span></div></section>`;
-  if(reg)h+=`<div class="who" style="margin-bottom:8px"><span>Sei iscritto come <strong>${esc(reg.nome)}</strong>${reg.persone.length>1?` con ${reg.persone.length-1} ${reg.persone.length===2?'accompagnatore':'accompagnatori'}`:''}. Puoi avere una sola iscrizione per evento.</span><button class="btn ghost small" id="goManage">Cambia o cancella</button></div>`;
+  if(reg)h+=`<div class="who" style="margin-bottom:8px"><span>Sei iscritto come <strong>${esc(reg.nome)}</strong>${reg.persone.length>1?` con ${reg.persone.length-1} ${reg.persone.length===2?'accompagnatore':'accompagnatori'}`:''}.${!s.tavoli_chiusi&&(canPick('pom',reg)||canPick('sera',reg)||(!reg.cena&&!s.cena_chiusa))?' Se vuoi, aggiungi qui sotto un\'altra fascia o la pizza.':''}</span><button class="btn ghost small" id="goManage">Cambia o cancella</button></div>`;
   else if(s.tavoli_chiusi)h+=`<div class="gate-msg" style="margin-bottom:8px"><strong>Le iscrizioni sono chiuse.</strong> Puoi ancora vedere i tavoli. Per un posto all'ultimo momento scrivi a <span class="selectable">${esc(PUB.mail)}</span>.</div>`;
   if(s.tavoli.some(t=>t.fascia==='giorno'))h+=slotBlock(s,'giorno','Tutto il giorno',dayTime(s),'giorno',reg,'Pomeriggio e sera allo stesso tavolo');
   h+=slotBlock(s,'pom','Pomeriggio',s.orario_pom,'pom',reg);
-  const pizzaBtn=reg?(reg.cena?'<span class="btn on" aria-disabled="true">Sei a cena ✓</span>':''):(s.cena_chiusa?'':`<button class="btn ${sel.pizza?'on':''}" id="pizzaBtn">${sel.pizza?'Mi fermo a cena ✓':'Mi fermo a cena'}</button>`);
+  const pizzaBtn=reg&&reg.cena?'<span class="btn on" aria-disabled="true">Sei a cena ✓</span>':((s.cena_chiusa||(reg&&s.tavoli_chiusi))?'':`<button class="btn ${sel.pizza?'on':''}" id="pizzaBtn">${sel.pizza?'Mi fermo a cena ✓':'Mi fermo a cena'}</button>`);
   h+=`<section class="slot piz"><div class="slot-head"><h2>Pizza</h2><span class="time">ore ${esc(s.orario_pizza)}</span><span class="hint">${s.cena_chiusa?'Prenotazioni per la cena chiuse':'Prenota entro '+esc(s.chiusura_cena_txt)+' · si paga in sede'}</span></div>
     <div class="pizza"><div class="count">${s.a_cena}</div><p>persone si fermano a cena finora. Puoi scegliere la pizza vegana e segnalarci intolleranze quando completi l'iscrizione.</p>${pizzaBtn}</div></section>`;
   h+=slotBlock(s,'sera','Sera',s.orario_sera,'sera',reg);
@@ -487,8 +488,13 @@ const cap=s=>String(s).charAt(0).toUpperCase()+String(s).slice(1);
 const daySel=()=>!!sel.pom&&sel.pom===sel.sera;
 function renderBar(){
   const s=sat(), slot=$('barSlot');
-  if(VIEW!=='sabato'||!s||MYREG[s.id]||s.tavoli_chiusi||(!sel.pom&&!sel.sera&&!sel.pizza)){slot.innerHTML='';return;}
+  const reg=s&&MYREG[s.id];
+  if(VIEW!=='sabato'||!s||s.tavoli_chiusi||(!sel.pom&&!sel.sera&&!sel.pizza)){slot.innerHTML='';return;}
   const nm=id=>{const t=s.tavoli.find(x=>x.id===id);return t?esc(t.gioco)+(t.posti-t.occupati<=0?' (lista d\'attesa)':''):'—';};
+  if(reg){const parts=[];if(daySel())parts.push('Tutto il giorno: '+nm(sel.pom));else if(sel.pom)parts.push('Pomeriggio: '+nm(sel.pom));
+    if(sel.pizza)parts.push('Pizza');if(sel.sera&&!daySel())parts.push('Sera: '+nm(sel.sera));
+    slot.innerHTML=`<div class="bar"><div class="wrap"><div class="sum"><b>Aggiungi:</b> ${parts.join(' · ')}</div><button class="btn primary" id="goReg">Aggiungi all'iscrizione</button></div></div>`;
+    $('goReg').onclick=openAdd;return;}
   slot.innerHTML=`<div class="bar"><div class="wrap"><div class="sum"><b>La tua giornata:</b> ${daySel()?`Tutto il giorno: ${nm(sel.pom)} · Pizza: ${sel.pizza?'sì':'no'}`:`Pomeriggio: ${nm(sel.pom)} · Pizza: ${sel.pizza?'sì':'no'} · Sera: ${nm(sel.sera)}`}</div><button class="btn primary" id="goReg">Completa l'iscrizione</button></div></div>`;
   $('goReg').onclick=openRegister;
 }
@@ -555,17 +561,54 @@ function openRegister(){
       const res=await call('apiRegister',{evento:s.id,pom:sel.pom||'',sera:sel.sera||'',cena:sel.pizza,privacy:mainVals.privacy,salute:mainVals.salute,
         persone:[{nome:mainVals.nome,cognome:mainVals.cognome,email:mainVals.email,cellulare:mainVals.cell,vegana:mainVals.vegana,intolleranze:mainVals.intol},
           ...guests.map(g=>({nome:g.nome,vegana:g.vegana,intolleranze:g.intol}))]});
-      store('nfp_reg_'+s.id,res.token);
-      try{MYREG[s.id]=Object.assign(await call('apiManage',res.token),{token:res.token});}catch(_){}
-      sel.pom=sel.sera=null;sel.pizza=false;guests=[];mainVals=blankVals();
-      await refreshPub();renderSat();
-      openModal(`<h2>Fatto, ci vediamo sabato!</h2><p class="lead">Iscrizione registrata${res.persone>1?` per ${res.persone} persone`:''}.</p>
-        <div class="recap"><ul>${res.riepilogo.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div>
-        <p>Ti abbiamo mandato una mail a <strong>${esc(res.email)}</strong> con il riepilogo e il link per cambiare o cancellare l'iscrizione. Se non la trovi, guarda nello spam.</p>
-        <div class="modal-actions"><button class="btn primary" id="okBtn">Torna ai tavoli</button></div>`);
-      $('okBtn').onclick=closeModal;
+      await afterSaved(s,res);
     }catch(er){btn.disabled=false;btn.textContent='Conferma iscrizione';showErr('err',er.message);}
   });
+}
+
+function openAdd(){
+  const s=sat(),reg=MYREG[s.id];if(!reg)return openRegister();
+  const recap=[],gn=id=>s.tavoli.find(t=>t.id===id).gioco;
+  if(daySel())recap.push('Tutto il giorno: '+gn(sel.pom));else if(sel.pom)recap.push('Pomeriggio: '+gn(sel.pom));
+  if(sel.pizza)recap.push('Pizza alle '+s.orario_pizza+(reg.persone.length>1?' per '+reg.persone.length+' persone':''));
+  if(sel.sera&&!daySel())recap.push('Sera: '+gn(sel.sera));
+  if(!addVals.length)addVals=reg.persone.map(n=>({nome:n,vegana:false,intol:''}));
+  const need=()=>sel.pizza&&addVals.some(x=>String(x.intol||'').trim());
+  openModal(`<h2>Aggiungi alla tua iscrizione</h2><p class="lead">${esc(cap(s.giorno))} · ${esc(reg.nome)}${reg.persone.length>1?` e ${reg.persone.length-1} ${reg.persone.length===2?'accompagnatore':'accompagnatori'}`:''}</p>
+  <form class="form" id="addForm" novalidate>
+    <div class="recap"><strong>Aggiungi</strong><ul>${recap.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>
+    ${reg.persone.length>1?'<p class="help" style="margin:0">Vale per tutte le persone della tua iscrizione.</p>':''}
+    ${sel.pizza?addVals.map((x,i)=>`<div class="person"><div class="ph"><span>${esc(x.nome)}, a cena</span></div>
+      <label class="check"><input type="checkbox" id="aveg${i}" ${x.vegana?'checked':''}> Pizza vegana</label>
+      <div class="field"><label for="aint${i}">Intolleranze o allergie (facoltativo)</label><input type="text" id="aint${i}" placeholder="es. lattosio" value="${esc(x.intol||'')}"></div></div>`).join(''):''}
+    <div class="gdpr"><label class="check" id="asaluteRow" ${need()?'':'hidden'}><input type="checkbox" id="asalute"> Acconsento in modo esplicito al trattamento dei dati su allergie e intolleranze (art. 9 GDPR), usati solo per ordinare la cena e cancellati in automatico tre giorni dopo l'evento.</label></div>
+    <p class="err" id="aerr" hidden></p>
+    <div class="modal-actions"><button type="button" class="btn ghost" id="cancelAdd">Indietro</button><button type="submit" class="btn primary" id="sendAdd">Conferma</button></div>
+  </form>`);
+  const form=$('addForm');
+  const sync=()=>{if(sel.pizza)addVals.forEach((x,i)=>{x.vegana=$('aveg'+i).checked;x.intol=$('aint'+i).value;});$('asaluteRow').hidden=!need();};
+  form.addEventListener('input',sync);form.addEventListener('change',sync);
+  $('cancelAdd').onclick=closeModal;
+  form.addEventListener('submit',async e=>{e.preventDefault();sync();
+    if(need()&&!$('asalute').checked)return showErr('aerr','Per salvare allergie e intolleranze serve anche la seconda spunta, quella specifica.');
+    const btn=$('sendAdd');btn.disabled=true;btn.textContent='Invio…';
+    try{
+      const res=await call('apiAdd',reg.token,{pom:sel.pom||'',sera:sel.sera||'',cena:sel.pizza,salute:$('asalute').checked,
+        persone:addVals.map(x=>({nome:x.nome,vegana:x.vegana,intolleranze:x.intol}))});
+      await afterSaved(s,res);
+    }catch(er){btn.disabled=false;btn.textContent='Conferma';showErr('aerr',er.message);}
+  });
+}
+async function afterSaved(s,res){
+  store('nfp_reg_'+s.id,res.token);
+  try{MYREG[s.id]=Object.assign(await call('apiManage',res.token),{token:res.token});}catch(_){}
+  sel.pom=sel.sera=null;sel.pizza=false;guests=[];mainVals=blankVals();addVals=[];
+  await refreshPub();renderSat();
+  openModal(`<h2>${res.aggiornata?'Fatto, iscrizione aggiornata!':'Fatto, ci vediamo sabato!'}</h2><p class="lead">${res.aggiornata?'Ecco la tua giornata.':`Iscrizione registrata${res.persone>1?` per ${res.persone} persone`:''}.`}</p>
+    <div class="recap"><ul>${res.riepilogo.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div>
+    <p>Ti abbiamo mandato una mail a <strong>${esc(res.email)}</strong> con il riepilogo e il link per cambiare o cancellare l'iscrizione. Se non la trovi, guarda nello spam.</p>
+    <div class="modal-actions"><button class="btn primary" id="okBtn">Torna ai tavoli</button></div>`);
+  $('okBtn').onclick=closeModal;
 }
 
 
@@ -612,7 +655,7 @@ async function renderManage(){
     <div class="mrow"><div><div class="lbl">A nome di</div><div><strong>${esc(m.nome)}</strong> · ${esc(m.email)}${m.persone.length>1?`<br>Con: ${esc(m.persone.slice(1).join(', '))}`:''}</div></div></div>
     ${m.giorno||s.tavoli.some(t=>t.fascia==='giorno')?row('giorno','Tutto il giorno · '+dayTime(s)):''}
     ${row('pom','Pomeriggio · '+(s.orario_pom||''))}
-    <div class="mrow"><div><div class="lbl">Pizza · ${esc(s.orario_pizza||'')}</div><div>${m.cena?'Sì, a cena':'No'}</div></div><span class="help" style="font-size:13px;color:var(--muted)">Per cambiare la cena scrivi a <span class="selectable">${esc(PUB?PUB.mail:'')}</span></span></div>
+    <div class="mrow"><div><div class="lbl">Pizza · ${esc(s.orario_pizza||'')}</div><div>${m.cena?'Sì, a cena':'No'}</div></div><span class="help" style="font-size:13px;color:var(--muted)">${m.cena?`Per togliere la cena scrivi a <span class="selectable">${esc(PUB?PUB.mail:'')}</span>`:'Per aggiungerla torna ai tavoli e scegli «Mi fermo a cena»'}</span></div>
     ${row('sera','Sera · '+(s.orario_sera||''))}
     ${m.passato?'<p class="names">Questo evento è già passato.</p>':s.tavoli_chiusi?'<p class="names">Le iscrizioni sono chiuse: per cambiare qualcosa scrivi agli organizzatori.</p>':''}
     ${m.passato?'':manageConfirm?`<div class="confirm"><span>Cancelli l'iscrizione${m.persone.length>1?' per tutte le '+m.persone.length+' persone':''}? Il posto passa a chi è in lista d'attesa.</span><button class="btn small danger" id="yesCancel">Sì, cancella</button><button class="btn small ghost" id="noCancel">No</button></div>`
